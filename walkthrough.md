@@ -49,7 +49,9 @@ source code: https://github.com/techschool/simplebank
 
 #### 3.1 Generate CreateAccount method of Query object
 
-- Create _db/query/account.sql_, then run `make sqlc`, go files will be generated in _db/sqlc_
+- Create _db/query/account.sql_, add a `INSERT` query to one create account
+- Run `make sqlc`, go files will be generated in _db/sqlc_
+- SQLC will read schema from migration sql files, and generate models in go
 - Do NOT modify the generated go files, because they will be regenerated everytime we run `make sqlc`
 
 #### 3.2 Fix missing dependencies in the generated files
@@ -61,3 +63,8 @@ source code: https://github.com/techschool/simplebank
 
 - Add 2 `SELECT` queries in _db/query/account.sql_
 - Run `make sqlc` will only update _account.sql.go_ to generate `GetAccount` and `ListAccounts` methods
+
+#### 3.4 Generate UpdateAccount method
+
+- Add a `UPDATE` query in _db/query/account.sql_, to only update the account `balance`
+- Run `make sqlc` will update _account.sql.go_ to generate `UpdateAccount` method
