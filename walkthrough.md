@@ -68,3 +68,8 @@ source code: https://github.com/techschool/simplebank
 
 - Add a `UPDATE` query in _db/query/account.sql_, to only update the account `balance`
 - Run `make sqlc` will update _account.sql.go_ to generate `UpdateAccount` method
+
+#### 3.5 Generate DeleteAccount method
+
+- Add a `DELETE` query in _db/query/account.sql_, to delete an account
+- Run `make sqlc` will update _account.sql.go_ to generate `DeleteAccount` method
