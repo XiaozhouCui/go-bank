@@ -42,3 +42,15 @@ source code: https://github.com/techschool/simplebank
 - Add the commands into Makefile, then run `make migrateup` or `make migratedown`
 
 ### 3 Generate CRUD Golang code from SQL
+
+#### 3.1 Generate CreateAccount
+
+- Install sqlc: `brew install sqlc`, validate installation by running `sqlc version`
+- In project root folder, run `sqlc init`, and update the generated _sqlc.yaml_, created corresponding folders inside _./db/_
+- Create _db/query/account.sql_, then run `sqlc generate`, go files will be generated in _db/sqlc_
+- Do NOT modify the generated go files, because they will be regenerated everytime we run `sqlc generate`
+
+#### 3.2 Fix missing dependencies in the generated files
+
+- Initialize go mod: `go mod init github.com/XiaozhouCui/go-bank`
+- Run `go mod tidy` to automatically fix the missing dependencies
