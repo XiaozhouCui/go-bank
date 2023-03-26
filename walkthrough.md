@@ -73,3 +73,13 @@ source code: https://github.com/techschool/simplebank
 
 - Add a `DELETE` query in _db/query/account.sql_, to delete an account
 - Run `make sqlc` will update _account.sql.go_ to generate `DeleteAccount` method
+
+### 4 Add unit tests for database CRUD
+
+#### 4.1 Setup unit test entry point and dependencies
+
+- Create _db/sqlc/main_test.go_ as the main entry point
+- Create test file db/sqlc/account_test.go
+- Install lib/pq: `go get github.com/lib/pq`, this will update _go.mod_
+- Import it in the _main_test.go_, then run `go mod tidy` to clean up _go.mod_
+- Run test should pass all tests
