@@ -83,5 +83,5 @@ source code: https://github.com/techschool/simplebank
 - Install lib/pq: `go get github.com/lib/pq`, this will update _go.mod_
 - Import `github.com/lib/pq` in the main_test.go, so that unit tests can connect to database in docker
 - Run `go mod tidy` to clean up _go.mod_
-- Run `go test ./db/sqlc -v` should pass all tests
+- Run `go test -v -cover ./...` should pass all tests
 - Install testify: `go get github.com/stretchr/testify`
