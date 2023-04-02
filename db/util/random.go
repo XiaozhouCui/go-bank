@@ -23,7 +23,7 @@ func RandomString(n int) string {
 	k := len(alphabet)
 
 	for i := 0; i < n; i++ {
-		c := alphabet[rand.Intn(k)] // random index
+		c := alphabet[rand.Intn(k)] // get letter at random index
 		sb.WriteByte(c)
 	}
 
@@ -35,8 +35,8 @@ func RandomOwner() string {
 	return RandomString(6)
 }
 
-// RandomAmount generates a random amount of money.
-func RandomAmount() int64 {
+// RandomMoney generates a random amount of money.
+func RandomMoney() int64 {
 	return RandomInt(0, 1000)
 }
 
