@@ -3,7 +3,7 @@ source code: https://github.com/techschool/simplebank
 ### 1. Database setup
 
 - Generated ERD: https://dbdiagram.io/d/63cb8d49296d97641d7b24f9, generate and export postgres queries
-- Run docker for postgres: `docker run --name postgres -p 54321:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:latest`
+- Run docker for postgres: `docker run --name postgres -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:latest`
 - Instead, use docker compose: `docker compose up`, db container name should be _postgres-1_
 - To connect to the db in docker: `docker exec -it postgres psql -U root`
 - Inside db, run `select now();` to show date time, run `\q` to quit pg container
@@ -37,8 +37,8 @@ source code: https://github.com/techschool/simplebank
 
 #### 2.3 Run migration using Makefile
 
-- To run migration up: `migrate -path db/migration -database "postgresql://root:secret@localhost:54321/simple_bank?sslmode=disable" -verbose up`
-- To run migration down: `migrate -path db/migration -database "postgresql://root:secret@localhost:54321/simple_bank?sslmode=disable" -verbose down`
+- To run migration up: `migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up`
+- To run migration down: `migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down`
 - Add the commands into Makefile, then run `make migrateup` or `make migratedown`
 
 ### 3 Generate CRUD Golang code from SQLC
