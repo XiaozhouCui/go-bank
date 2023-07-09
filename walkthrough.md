@@ -93,7 +93,7 @@ source code: https://github.com/techschool/simplebank
 - Create _db/util/config.go_ to read configuration from file or environment vairables
 - Update _main.go_ and _main_test.go_ to load db configs with viper
 
-### 6 Mock db for testing
+### 6 Use gomock to mock db for testing
 
 #### 6.1 Setup Store interface for the mock
 
