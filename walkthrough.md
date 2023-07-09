@@ -85,3 +85,10 @@ source code: https://github.com/techschool/simplebank
 - Run `go mod tidy` to clean up _go.mod_
 - Run `go test -v -cover ./...` should pass all tests
 - Install testify: `go get github.com/stretchr/testify`
+
+### 5 Load config from file and environment variables
+
+- Install viper: `go get github.com/spf13/viper`
+- Create _app.env_ in root folder to config environment variables
+- Create _db/util/config.go_ to read configuration from file or environment vairables
+- Update _main.go_ and _main_test.go_ to load db configs with viper
