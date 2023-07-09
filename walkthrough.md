@@ -92,3 +92,13 @@ source code: https://github.com/techschool/simplebank
 - Create _app.env_ in root folder to config environment variables
 - Create _db/util/config.go_ to read configuration from file or environment vairables
 - Update _main.go_ and _main_test.go_ to load db configs with viper
+
+### 6 Mock db for testing
+
+#### 6.1 Setup Store interface for the mock
+
+- Install mockgen: `go install github.com/golang/mock/mockgen@v1.6.0`
+- Update store.go to convert `Store` from struct to an interface
+- Update sqlc.yaml `emit_interface: true`
+- Run `make sqlc` to generate _go/sqlc/querier.go_
+- Embed the `Querier` into the `Store` interface in store.go
