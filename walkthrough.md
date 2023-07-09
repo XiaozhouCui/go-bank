@@ -102,3 +102,10 @@ source code: https://github.com/techschool/simplebank
 - Update sqlc.yaml `emit_interface: true`
 - Run `make sqlc` to generate _go/sqlc/querier.go_
 - Embed the `Querier` into the `Store` interface in store.go
+
+#### 6.2 Generate mock file
+
+- Create folder _db/mock_
+- Run `mockgen -build_flags=--mod=mod -package mockdb -destination db/mock/store.go github.com/XiaozhouCui/go-bank/db/sqlc Store`
+- This will generate _db/mock/store.go_
+- Add the command to makefile
