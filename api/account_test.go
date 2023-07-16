@@ -1,7 +1,10 @@
 package api
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -14,6 +17,7 @@ import (
 )
 
 func TestGetAccountAPI(t *testing.T) {
+	// generate a random account
 	account := randomAccount()
 
 	ctrl := gomock.NewController(t)
@@ -37,6 +41,7 @@ func TestGetAccountAPI(t *testing.T) {
 
 	// make assertion on response
 	require.Equal(t, http.StatusOK, recorder.Code)
+	requireBodyMatchAccount(t, recorder.Body, account)
 }
 
 func randomAccount() db.Account {
@@ -46,4 +51,17 @@ func randomAccount() db.Account {
 		Balance:  util.RandomMoney(),
 		Currency: util.RandomCurrency(),
 	}
+}
+
+// make assertion on response body
+func requireBodyMatchAccount(t *testing.T, body *bytes.Buffer, account db.Account) {
+	// read all data from response body
+	data, err := ioutil.ReadAll(body)
+	require.NoError(t, err)
+
+	var gotAccount db.Account
+	// unmarshal data to the gotAccount object
+	err = json.Unmarshal(data, &gotAccount)
+	require.NoError(t, err)
+	require.Equal(t, account, gotAccount)
 }
