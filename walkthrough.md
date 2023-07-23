@@ -109,3 +109,9 @@ source code: https://github.com/techschool/simplebank
 - Run `mockgen -build_flags=--mod=mod -package mockdb -destination db/mock/store.go github.com/XiaozhouCui/go-bank/db/sqlc Store`
 - This will generate _db/mock/store.go_
 - Add the command to makefile
+
+### Create users table for auth
+
+- Create migration: `migrate create -ext sql -dir db/migration -seq add_users`
+- Update the generated sql migration files
+- Add one-step migrations in makefile, and ran the migrations
