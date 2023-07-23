@@ -14,7 +14,7 @@ type transferRequest struct {
 	FromAccountID int64  `json:"from_account_id" binding:"required,min=1"`
 	ToAccountID   int64  `json:"to_account_id" binding:"required,min=1"`
 	Amount        int64  `json:"amount" binding:"required,gt=0"`
-	Currency      string `json:"currency" binding:"required,oneof=USD EUR"`
+	Currency      string `json:"currency" binding:"required,oneof=USD EUR CAD"`
 }
 
 func (server *Server) createTransfer(ctx *gin.Context) {
@@ -51,6 +51,7 @@ func (server *Server) createTransfer(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, result)
 }
 
+// validate transfer currency against account currency
 func (server *Server) validAccount(ctx *gin.Context, accountId int64, currency string) bool {
 	account, err := server.store.GetAccount(ctx, accountId)
 	if err != nil {
