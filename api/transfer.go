@@ -11,10 +11,11 @@ import (
 
 type transferRequest struct {
 	// binding is for validation
+	// "currency" validator is registered in server.go, to replace binding "oneof=USD EUR CAD"
 	FromAccountID int64  `json:"from_account_id" binding:"required,min=1"`
 	ToAccountID   int64  `json:"to_account_id" binding:"required,min=1"`
 	Amount        int64  `json:"amount" binding:"required,gt=0"`
-	Currency      string `json:"currency" binding:"required,oneof=USD EUR CAD"`
+	Currency      string `json:"currency" binding:"required,currency"`
 }
 
 func (server *Server) createTransfer(ctx *gin.Context) {

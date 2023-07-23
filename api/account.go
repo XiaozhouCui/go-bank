@@ -10,8 +10,9 @@ import (
 
 type createAccountRequest struct {
 	// binding is for validation
+	// "currency" validator is registered in server.go, to replace binding "oneof=USD EUR CAD"
 	Owner    string `json:"owner" binding:"required"`
-	Currency string `json:"currency" binding:"required,oneof=USD EUR CAD"`
+	Currency string `json:"currency" binding:"required,currency"`
 }
 
 func (server *Server) createAccount(ctx *gin.Context) {
