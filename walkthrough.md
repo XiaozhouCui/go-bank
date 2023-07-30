@@ -110,8 +110,16 @@ source code: https://github.com/techschool/simplebank
 - This will generate _db/mock/store.go_
 - Add the command to makefile
 
-### Create users table for auth
+### 7 Create users table for auth
+
+#### 7.1 Add migration for users table
 
 - Create migration: `migrate create -ext sql -dir db/migration -seq add_users`
 - Update the generated sql migration files
 - Add one-step migrations in makefile, and ran the migrations
+
+#### 7.2 Add sql query for users table
+
+- Create slq file _db/query/user.sql_
+- Run `make sqlc` to generate functions `CreateUser` and `GetUser` in _db/sqlc/user.sql.go_
+- Add tests for the above functions `user_test.go` in _db/sqlc_
