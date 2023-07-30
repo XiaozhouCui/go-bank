@@ -126,3 +126,8 @@ source code: https://github.com/techschool/simplebank
 - Add tests for the above functions `user_test.go` in _db/sqlc_
 - Need to update `account_test.go` for foreign key constraintsk, adding `user.Username` as `account.Owner`
 - Handle foreign key errors in CreateAccount by using pq error code.
+
+#### 7.3 Hash the password
+
+- Use `bcrypt` to hash the password
+- In _db/util/password.go_, add `HashPassword` and `CheckPassword`
