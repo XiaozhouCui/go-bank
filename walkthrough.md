@@ -122,4 +122,6 @@ source code: https://github.com/techschool/simplebank
 
 - Create slq file _db/query/user.sql_
 - Run `make sqlc` to generate functions `CreateUser` and `GetUser` in _db/sqlc/user.sql.go_
+- Run `make mock` to re-run mockgen, which will add the above functions into _db/mock/store.go_
 - Add tests for the above functions `user_test.go` in _db/sqlc_
+- Need to update `account_test.go` for foreign key constraintsk, adding `user.Username` as `account.Owner`
