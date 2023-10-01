@@ -23,7 +23,10 @@ func main() {
 	}
 
 	store := db.NewStore(conn) // return a store interface
-	server := api.NewServer(store)
+	server, err := api.NewServer(config, store)
+	if err != nil {
+		log.Fatal("cannot create server:", err)
+	}
 
 	// start server
 	err = server.Start(config.ServerAddress)
