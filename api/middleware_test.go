@@ -98,7 +98,7 @@ func TestAuthMiddleware(t *testing.T) {
 			// main content of sub-test
 			// create a test server
 			server := newTestServer(t, nil) // nil as we don't need db.Store for this test
-			// add a fake api route to the test server
+			// add a fake api route with auth middleware to the test server
 			authPath := "/auth"
 			server.router.GET(
 				authPath,
