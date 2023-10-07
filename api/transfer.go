@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	db "github.com/XiaozhouCui/go-bank/db/sqlc"
+	"github.com/XiaozhouCui/go-bank/token"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,11 +27,23 @@ func (server *Server) createTransfer(ctx *gin.Context) {
 		return
 	}
 
-	// validate currency for both accounts
-	if !server.validAccount(ctx, req.FromAccountID, req.Currency) {
+	// validate currency for FromAccount
+	fromAccount, valid := server.validAccount(ctx, req.FromAccountID, req.Currency)
+	if !valid {
 		return
 	}
-	if !server.validAccount(ctx, req.ToAccountID, req.Currency) {
+
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	if fromAccount.Owner != authPayload.Username {
+		err := fmt.Errorf("from account [%d] is not owned by the current user", fromAccount.ID)
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+
+	// validate currency for ToAccount
+	_, valid = server.validAccount(ctx, req.ToAccountID, req.Currency)
+	if !valid {
 		return
 	}
 
@@ -53,24 +66,24 @@ func (server *Server) createTransfer(ctx *gin.Context) {
 }
 
 // validate transfer currency against account currency
-func (server *Server) validAccount(ctx *gin.Context, accountId int64, currency string) bool {
+func (server *Server) validAccount(ctx *gin.Context, accountId int64, currency string) (db.Account, bool) {
 	account, err := server.store.GetAccount(ctx, accountId)
 	if err != nil {
 		// 2 error scenarios: 404 and 500
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
-			return false
+			return account, false
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
-		return false
+		return account, false
 	}
 
 	// validate currency
 	if account.Currency != currency {
 		err := fmt.Errorf("account [%d] currency mismatch: %s vs %s", account.ID, account.Currency, currency)
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
-		return false
+		return account, false
 	}
 
-	return true
+	return account, true
 }
