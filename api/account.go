@@ -2,9 +2,11 @@ package api
 
 import (
 	"database/sql"
+	"errors"
 	"net/http"
 
 	db "github.com/XiaozhouCui/go-bank/db/sqlc"
+	"github.com/XiaozhouCui/go-bank/token"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
 )
@@ -12,7 +14,6 @@ import (
 type createAccountRequest struct {
 	// binding is for validation
 	// "currency" validator is registered in server.go, to replace binding "oneof=USD EUR CAD"
-	Owner    string `json:"owner" binding:"required"`
 	Currency string `json:"currency" binding:"required,currency"`
 }
 
@@ -24,9 +25,12 @@ func (server *Server) createAccount(ctx *gin.Context) {
 		return
 	}
 
-	// if req is valid, create account in db
+	// get the payload from the auth middleware
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	// if req is valid, create account in db under the current user's name
 	arg := db.CreateAccountParams{
-		Owner:    req.Owner,
+		Owner:    authPayload.Username,
 		Currency: req.Currency,
 		Balance:  0,
 	}
@@ -71,6 +75,13 @@ func (server *Server) getAccount(ctx *gin.Context) {
 		return
 	}
 
+	// only logged-in user can get his own account info
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+	if account.Owner != authPayload.Username {
+		err := errors.New("account doesn't belong to the authenticated user")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
 	ctx.JSON(http.StatusOK, account)
 }
 
