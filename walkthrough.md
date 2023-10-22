@@ -134,7 +134,13 @@ source code: https://github.com/techschool/simplebank
 
 ### 8 Deployment
 
-#### 8.1 Upgrade golang-migrate
+#### 8.1 Upgrade go
+
+- Download installer from https://go.dev/dl/
+- Verify installation `go version`
+- Update go version in go.sum and ci.yml
+
+#### 8.2 Upgrade golang-migrate
 
 - Create a new branch `git checkout -b ft/docker`
 - Run `brew upgrade golang-migrate`
