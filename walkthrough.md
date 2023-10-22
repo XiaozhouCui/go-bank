@@ -131,3 +131,12 @@ source code: https://github.com/techschool/simplebank
 
 - Use `bcrypt` to hash the password
 - In _db/util/password.go_, add `HashPassword` and `CheckPassword`
+
+### 8 Deployment
+
+#### 8.1 Upgrade golang-migrate
+
+- Create a new branch `git checkout -b ft/docker`
+- Run `brew upgrade golang-migrate`
+- Verify the upgrade `migrate -version`, and run `make migrateup`
+- Update the version in ci.yml
